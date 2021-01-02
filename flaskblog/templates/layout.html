@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <script src="https://kit.fontawesome.com/5dfb9918d5.js" crossorigin="anonymous"></script>
+
+    {% if title %}
+        <title>Ecoknowme - {{ title }}</title>
+    {% else %}
+        <title>Ecoknowme</title>
+    {% endif %}
+    <link rel="icon" type="image/pnj" class="margin: 0px 0px 0px 0px" size="80x80"href="https://i.ibb.co/RNLCkm6/Logo.png">
+</head>
+<body onload="myFunction()">  
+  <div id="loader"></div>
+  <div id="myDiv" class="animate-bottom">
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="/"><img class="margin: 0px 0px 0px 0px" alt="Logo" width="50" height="50" border="0"src="static/design_pics/logo.png"></a>
+          <div class="navbar-header">
+            <a href="https://ibb.co/5kq5gyj"><img class="margin: 0px 0px 0px 0px "alt="Logo" width="200" height="50" border="0"src="static/design_pics/name.png"></a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a title="Home" class="nav-item nav-link" href="{{ url_for('main.home') }}"><i class="fas fa-home" style="font-size:30px;margin: -2px 30px -4px 10px;"></i></a>
+              <a title=" About" class="nav-item nav-link" href="{{ url_for('main.about') }}"><i class="fas fa-eject" style="font-size:30px;margin: -2px 30px -4px 0px;"></i></a>
+              <a title="Store"class="nav-item nav-link" href="{{ url_for('posts.new_post') }}"><i class="fas fa-store" style="font-size:30px;margin: -2px 30px -4px 0px;"></i></a>
+              <a title="Donate" class="nav-item nav-link" href="{{ url_for('posts.new_post') }}"><i class="fas fa-hand-holding-medical" style="font-size:30px;margin: -2px 30px -4px 0px;"></i></a>
+              <a title="Map" class="nav-item nav-link" href="{{ url_for('posts.new_post') }}"><i class="fas fa-map-marked-alt" style="font-size:30px;margin: -2px 30px -4px 0px;"></i></a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}"><i class="fas fa-blog" style="font-size:25px;margin: 0px 10px 0px 10px;"></i>New Post</a>
+                <a class="nav-item nav-link" href="{{ url_for('users.account') }}"><i class="fas fa-id-badge" style="font-size:25px;margin: 0px 10px 0px 10px;"></i>Profile</a>
+                <a class="nav-item nav-link" href="{{ url_for('users.logout') }}"><i class="fas fa-sign-out-alt" style="font-size:25px;margin: 0px 10px 0px 10px;"></i>Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{{ url_for('users.login') }}"><i class="fas fa-sign-in-alt" style="font-size:30px;margin: 0px 10px 0px 10px;"></i>Login</a>
+                <a class="nav-item nav-link" href="{{ url_for('users.register') }}"><i class="fas fa-user-plus" style="font-size:30px;margin: 0px 10px 0px 10px;"></i>Register</a>
+              {% endif %}
+              <script type="text/javascript">window.onload = date_time('date_time');</script>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container" >
+      <div class="row">
+        <div class="col-md-8">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Market Place</h3>
+            <p>Products
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">Latest Posts</li>
+                <li class="list-group-item list-group-item-light">Announcements</li>
+                <li class="list-group-item list-group-item-light">Calendars</li>
+                <li class="list-group-item list-group-item-light">etc</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <div class="loader"></div>
+
+<style>
+/* Center the loader */
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 120px;
+  height: 120px;
+  margin: -76px 0 0 -76px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom: 100px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom: -100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+#myDiv {
+
+}
+</style>
+
+<script>
+var myVar;
+
+function myFunction() {
+  myVar = setTimeout(showPage, 3000);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+}
+
+
+function date_time(id)
+{
+        date = new Date;
+        year = date.getFullYear();
+        month = date.getMonth();
+        months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December');
+        d = date.getDate();
+        day = date.getDay();
+        days = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+        h = date.getHours();
+        if(h<10)
+        {
+                h = "0"+h;
+        }
+        m = date.getMinutes();
+        if(m<10)
+        {
+                m = "0"+m;
+        }
+        s = date.getSeconds();
+        if(s<10)
+        {
+                s = "0"+s;
+        }
+        result = ''+days[day]+' '+months[month]+' '+d+' '+year+' '+h+':'+m+':'+s;
+        document.getElementById(id).innerHTML = result;
+        setTimeout('date_time("'+id+'");','1000');
+        return true;
+}
+</script>
+</div>
+</body>
+</html>
+

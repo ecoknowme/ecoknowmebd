@@ -20,3 +20,4 @@ Werkzeug
 WTForms
 email-validator
 gunicorn
+flask-share
